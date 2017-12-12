@@ -106,7 +106,7 @@ abline( h=seq(50000,350000,50000), col="white" )
 
 ```
 
-![]('revocation_by_year.png')
+![](revocations_by_year.png)
 
 
 ## EXPORT THE DATASET
