@@ -99,11 +99,14 @@ table( dat.revoked$Exemption.Type )
 
 # New automatic revocation policy took effect in 2010 - note the purge
 
-barplot( table( dat.revoked$Year ), col="gray", border="white" )
-
-
+barplot( table( dat.revoked$Year ), col="gray", border="white", 
+         main="IRS Automatic Revocation of Tax Exempt Status by Year", 
+         cex.main=1.5 )
+abline( h=seq(50000,350000,50000), col="white" )
 
 ```
+
+![](revocation_by_year.png)
 
 
 ## EXPORT THE DATASET
