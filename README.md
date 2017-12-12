@@ -97,6 +97,12 @@ dat.revoked$Year <- substr( dat.revoked$Revocation.Date, 8, 11 )
 
 table( dat.revoked$Exemption.Type )
 
+
+# The database includes reinstatements
+
+table( substr( dat.revoked$Exemption.Reinstatement.Date, 8, 11) )
+
+
 # New automatic revocation policy took effect in 2010 - note the purge
 
 barplot( table( dat.revoked$Year ), col="gray", border="white", 
