@@ -6,7 +6,7 @@ Scripts and documentation used to build the database of revoked IRS Exempt Organ
 
 # ORGANIZATIONS WITH 501(c)(3) STATUS REVOKED
 
-From: https://apps.irs.gov/app/eos/forwardToRevokeDownload.do
+From: https://www.irs.gov/charities-non-profits/tax-exempt-organization-search-bulk-data-downloads
 
 Internal Revenue Service United States Department of the Treasury
 
@@ -49,9 +49,9 @@ Exemption Reinstatement Date  |  	Optional; Format: DD-MON-YYYY
 
 getwd()
 
-dir.create( "IRS Nonprofit Data" )
+dir.create( "revocations" )
 
-setwd( "./IRS Nonprofit Data" )
+setwd( "./revocations" )
 
 
 
