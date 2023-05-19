@@ -22,7 +22,8 @@
 
 
 
-
+library( dplyr )
+library( knitr )
 
 
 file.url <- "https://apps.irs.gov/pub/epostcard/data-download-revocation.zip"
@@ -76,7 +77,7 @@ d$RYEAR <- substr( d$revocation_date, 8, 11 )
 d$RDATE <- as.Date( d$revocation_date, format="%d-%b-%Y" )
 d$ID <- paste0( "ID-", d$ein, "-", d$RDATE )
 
-
+d <- dplyr::arrange( d, desc(RDATE) )
 
 
 #####
