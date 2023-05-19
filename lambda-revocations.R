@@ -92,6 +92,15 @@ filename <-  paste0( yyyy.mm, "-REVOCATIONS-ORGS.csv" )
 write.csv( d, filename, row.names=F )
 
 
+# CREATE A RECORD COUNT TABLE
+
+t <- table( d$RDATE ) %>% as.data.frame()
+names(t) <- c("DATE","COUNT")
+t <- dplyr::arrange( t, desc(DATE) )
+tablename <- paste0( yyyy.mm, "-REVOCATIONS-TABLE.csv" )
+write.csv( t, tablename, row.names=F )
+
+
 
 # CREATE A LOGFILE
 
@@ -100,24 +109,25 @@ zz <- file( logname, open = "wt" )
 sink( zz, split=T )
 sink( zz, type = "message", append=TRUE )
   
-print( paste0( "There are ", nrow(d), " records in this file." ) )
-print( paste0( "There are ", ncol(d), " columns in the dataset." ) )
-print( paste0( "First six records:" ) )
+cat( paste0( "There are ", nrow(d), " records in this file.\n" ) )
+cat( paste0( "There are ", ncol(d), " columns in the dataset.\n\n" ) )
+
+cat( paste0( "FIRST SIX RECORDS:" ) )
 print( head(d[,c(1,2,10,11)]) %>% knitr::kable() )
+
+cat( "\n\n" )
+cat( paste0( "RECORD COUNT:" ) )
+print( t %>% knitr::kable() )
 
 sink( type="message" )
 sink()      # close sink
 close(zz)   # close connection
 
+
 # file.show( "2023-05-REVOCATIONS-LOG.txt" )
 
 
-# CREATE A RECORD COUNT TABLE
 
-t <- table( d$RDATE ) %>% as.data.frame()
-names(t) <- c("DATE","COUNT")
-tablename <- paste0( yyyy.mm, "-REVOCATIONS-TABLE.csv" )
-write.csv( t, tablename, row.names=F )
 
 
 
