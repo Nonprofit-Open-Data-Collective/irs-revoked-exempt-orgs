@@ -43,104 +43,193 @@ Exemption Reinstatement Date  |  	Optional; Format: DD-MON-YYYY
 
 
 ```R 
+ DOWNLOAD AND UNZIP
 
-
-# create subdirectory for the data
-
-getwd()
-
-dir.create( "revocations" )
-
-setwd( "./revocations" )
-
-
-
-# download and unzip
-
-file.url <- "https://apps.irs.gov/pub/epostcard/data-download-revocation.zip"
-
-download.file( url=file.url, "revoked.zip" )
-
+f <- "https://apps.irs.gov/pub/epostcard/data-download-revocation.zip"
+download.file( url=f, "revoked.zip" )
 unzip( "revoked.zip" )
-
 file.remove( "revoked.zip" )
 
-dat.revoked <- read.delim( file="data-download-revocation.txt", 
-            header = FALSE, 
-            sep = "|", 
-            quote = "",
-            dec = ".", 
-            fill = TRUE,  
-            colClasses="character"
-          )
+fn <- "data-download-revocation.txt"
+
+df <- 
+  read.delim( 
+    file=, 
+    header = FALSE, 
+    sep = "|", 
+    quote = "",
+    dec = ".", 
+    fill = TRUE,  
+    colClasses="character" )
+
+v <-   # VARIABLE NAMES 
+  c( "EIN", "Legal.Name", 
+     "Doing.Business.As.Name", 
+     "Organization.Address", 
+     "City", "State", 
+     "ZIP.Code", "Country", 
+     "Exemption.Type", "Revocation.Date", 
+     "Revocation.Posting.Date", 
+     "Exemption.Reinstatement.Date" )
+
+names( df ) <- v
 
 
+# CHANGE TAX.YEAR FROM YYYY-MM TO YYYY
 
-# add header information - variable names
+x <- df$Revocation.Date
+year <- substr( x, 8, 11 )
+df$Year <- year
 
-var.names <- c("EIN", "Legal.Name", "Doing.Business.As.Name", "Organization.Address", 
-"City", "State", "ZIP.Code", "Country", "Exemption.Type", "Revocation.Date", 
-"Revocation.Posting.Date", "Exemption.Reinstatement.Date")
-
-
-names( dat.revoked ) <- var.names
-
-rm( var.names )
-
-
-# change Tax.Year from YYYY-MM to YYYY
-
-dat.revoked$Year <- substr( dat.revoked$Revocation.Date, 8, 11 )
-
-
-# Note the types of exempt orgs (501c3, 501c4, etc.) are being revoked:
-
-table( dat.revoked$Exemption.Type )
-
-
-# The database includes reinstatements
-
-table( substr( dat.revoked$Exemption.Reinstatement.Date, 8, 11) )
-
-
-# New automatic revocation policy took effect in 2010 - note the purge
-
-barplot( table( dat.revoked$Year ), col="gray", border="white", 
-         main="IRS Automatic Revocation of Tax Exempt Status by Year", 
-         cex.main=1.5 )
-abline( h=seq(50000,350000,50000), col="white" )
-
+k <- "Revocation Count by Year"
+year |> table() |> 
+  format( big.mark="," ) |> 
+  knitr::kable( caption=k )
 ```
 
-![](revocations_by_year.png)
+Table: Revocation Count by Year
+
+|     |x       |
+|:----|:-------|
+|2010 |377,416 |
+|2011 |92,923  |
+|2012 |47,775  |
+|2013 |52,381  |
+|2014 |37,531  |
+|2015 |35,898  |
+|2016 |44,214  |
+|2017 |86,046  |
+|2018 |63,704  |
+|2019 |41,476  |
+|2020 |39,584  |
+|2021 |48,204  |
+|2022 |55,328  |
+|2023 |62,075  |
+|2024 |54,113  |
+
+
+```R
+#  NOTE THE TYPES OF EXEMPT ORGS 
+#  (501C3, 501C4, ETC.) ARE BEING REVOKED:
+
+k <- "Revocations by 501c Type"
+x <- df$Exemption.Type 
+x |> table() |> 
+  format( big.mark="," ) |> 
+  knitr::kable( align="r", caption=k )
+```
+
+Table: Revocations by 501c Type
+
+|   |       x|
+|:--|-------:|
+|0  |     819|
+|00 |  36,799|
+|02 |   3,646|
+|03 | 736,690|
+|04 | 166,037|
+|05 |  24,441|
+|06 |  45,631|
+|07 |  50,354|
+|08 |  26,514|
+|09 |   5,277|
+|1  |      43|
+|10 |   6,969|
+|11 |       9|
+|12 |   2,500|
+|13 |   6,296|
+|14 |     930|
+|15 |     891|
+|16 |      14|
+|17 |     316|
+|18 |       8|
+|19 |  24,026|
+|20 |      24|
+|21 |      31|
+|22 |       2|
+|23 |       2|
+|24 |       2|
+|25 |     334|
+|26 |       5|
+|27 |       3|
+|29 |      10|
+|40 |       5|
+|50 |      24|
+|7  |       1|
+|70 |      14|
+|90 |       1|
+
+
+```R
+# THE DATABASE INCLUDES REINSTATEMENTS
+
+x <- df$Exemption.Reinstatement.Date
+t <- x |> substr( 8, 11 ) |> table() 
+t |> format( big.mark="," ) |> 
+     knitr::kable( caption="Revocations" )
+```
+
+|Var1 |   Freq|
+|:----|------:|
+|     | 976115|
+|2010 |  28764|
+|2011 |  11915|
+|2012 |  15140|
+|2013 |  11723|
+|2014 |  10969|
+|2015 |  12505|
+|2016 |  12365|
+|2017 |  12741|
+|2018 |  11018|
+|2019 |   7085|
+|2020 |   4763|
+|2021 |   5526|
+|2022 |   7543|
+|2023 |   7880|
+|2024 |   2616|
+
+```R
+#  NEW AUTOMATIC REVOCATION POLICY TOOK 
+#  EFFECT IN 2010 - NOTE THE PURGE
+
+t <- table( df$Year )
+title <- "IRS Automatic Revocation of Tax Exempt Status by Year"
+
+barplot( t, 
+  col="gray", border="white", 
+  cex.main=1.5, main=title )
+
+abline( 
+  h=seq(50000,350000,50000), 
+  col="white" )
+```
+
+![](![image](https://github.com/user-attachments/assets/6df2871c-aa33-473d-ad9b-01729d73d197)
+)
 
 
 ## EXPORT THE DATASET
 
 ```R
-
 # AS R DATA SET
-
-saveRDS( dat.revoked, file="RevokedOrganizations.rds" )
-
+fn <- "RevokedOrganizations.rds"
+saveRDS( df, file=fn )
 
 # AS CSV
-
-write.csv( dat.revoked, "RevokedOrganizations.csv", row.names=F )
-
+fn <- "RevokedOrganizations.csv"
+write.csv( df, fn, row.names=F )
 
 # IN STATA
-
 install.packages( "haven" )
 library( haven )
-write_dta( dat.revoked, "RevokedOrganizations.dta" )
-
+fn <- "RevokedOrganizations.dta"
+write_dta( df, fn )
 
 # IN SPSS  - creates a text file and a script for reading it into SPSS
-
 library( foreign )
-write.foreign( df=dat.revoked, datafile="RevokedOrganizations.txt", codefile="CodeToLoadDataInSPSS.txt", package="SPSS" )
-
-# if package 'foreign' is not installed first try:  install.packages("foreign")
-
+df <- "RevokedOrganizations.txt"
+cf <- "CodeToLoadDataInSPSS.txt"
+write.foreign( df, datafile=df, codefile=df, package="SPSS" )
 ```
+
+The the package 'foreign' is not installed first try:  `install.packages("foreign")`
