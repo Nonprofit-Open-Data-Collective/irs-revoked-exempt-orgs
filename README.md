@@ -204,8 +204,8 @@ abline(
   col="white" )
 ```
 
-![](![image](https://github.com/user-attachments/assets/6df2871c-aa33-473d-ad9b-01729d73d197)
-)
+![image](https://github.com/user-attachments/assets/73298069-ef21-4cb6-8e8a-446a38a3d1fe)
+
 
 
 ## EXPORT THE DATASET
