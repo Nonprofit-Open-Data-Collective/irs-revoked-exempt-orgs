@@ -105,6 +105,8 @@ year |> table() |>
 |2024 |54,113  |
 
 
+
+
 #  NOTE THE TYPES OF EXEMPT ORGS 
 #  (501C3, 501C4, ETC.) ARE BEING REVOKED:
 
@@ -156,26 +158,24 @@ x |> table() |>
 x <- df$Exemption.Reinstatement.Date
 t <- x |> substr( 8, 11 ) |> table() 
 t |> format( big.mark="," ) |> 
-     knitr::kable( caption="Revocations" )
+     knitr::kable( caption="Reinstatements by Year" )
 
-|Var1 |   Freq|
-|:----|------:|
-|     | 976115|
-|2010 |  28764|
-|2011 |  11915|
-|2012 |  15140|
-|2013 |  11723|
-|2014 |  10969|
-|2015 |  12505|
-|2016 |  12365|
-|2017 |  12741|
-|2018 |  11018|
-|2019 |   7085|
-|2020 |   4763|
-|2021 |   5526|
-|2022 |   7543|
-|2023 |   7880|
-|2024 |   2616|
+|2010 |28,764  |
+|2011 |11,915  |
+|2012 |15,140  |
+|2013 |11,723  |
+|2014 |10,969  |
+|2015 |12,505  |
+|2016 |12,365  |
+|2017 |12,741  |
+|2018 |11,018  |
+|2019 |7,085   |
+|2020 |4,763   |
+|2021 |5,526   |
+|2022 |7,543   |
+|2023 |7,880   |
+|2024 |2,616   |
+
 
 #  NEW AUTOMATIC REVOCATION POLICY TOOK 
 #  EFFECT IN 2010 - NOTE THE PURGE
