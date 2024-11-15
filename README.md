@@ -4,7 +4,7 @@ Scripts and documentation used to build the database of revoked IRS Exempt Organ
 
 
 
-# ORGANIZATIONS WITH 501(c)(3) STATUS REVOKED
+### ORGANIZATIONS WITH 501(c)(3) STATUS REVOKED
 
 From: https://www.irs.gov/charities-non-profits/tax-exempt-organization-search-bulk-data-downloads
 
@@ -43,7 +43,7 @@ Exemption Reinstatement Date  |  	Optional; Format: DD-MON-YYYY
 
 
 ```R 
- DOWNLOAD AND UNZIP
+# DOWNLOAD AND UNZIP
 
 f <- "https://apps.irs.gov/pub/epostcard/data-download-revocation.zip"
 download.file( url=f, "revoked.zip" )
@@ -85,12 +85,9 @@ k <- "Revocation Count by Year"
 year |> table() |> 
   format( big.mark="," ) |> 
   knitr::kable( caption=k )
-```
 
-Table: Revocation Count by Year
+# Table: Revocation Count by Year
 
-|     |x       |
-|:----|:-------|
 |2010 |377,416 |
 |2011 |92,923  |
 |2012 |47,775  |
@@ -108,7 +105,6 @@ Table: Revocation Count by Year
 |2024 |54,113  |
 
 
-```R
 #  NOTE THE TYPES OF EXEMPT ORGS 
 #  (501C3, 501C4, ETC.) ARE BEING REVOKED:
 
@@ -117,14 +113,9 @@ x <- df$Exemption.Type
 x |> table() |> 
   format( big.mark="," ) |> 
   knitr::kable( align="r", caption=k )
-```
 
-Table: Revocations by 501c Type
+# Table: Revocations by 501c Type
 
-|   |       x|
-|:--|-------:|
-|0  |     819|
-|00 |  36,799|
 |02 |   3,646|
 |03 | 736,690|
 |04 | 166,037|
@@ -160,14 +151,12 @@ Table: Revocations by 501c Type
 |90 |       1|
 
 
-```R
 # THE DATABASE INCLUDES REINSTATEMENTS
 
 x <- df$Exemption.Reinstatement.Date
 t <- x |> substr( 8, 11 ) |> table() 
 t |> format( big.mark="," ) |> 
      knitr::kable( caption="Revocations" )
-```
 
 |Var1 |   Freq|
 |:----|------:|
@@ -188,7 +177,6 @@ t |> format( big.mark="," ) |>
 |2023 |   7880|
 |2024 |   2616|
 
-```R
 #  NEW AUTOMATIC REVOCATION POLICY TOOK 
 #  EFFECT IN 2010 - NOTE THE PURGE
 
@@ -208,7 +196,9 @@ abline(
 
 
 
-## EXPORT THE DATASET
+### EXPORT THE DATASET
+
+The the package 'foreign' is not installed first try:  `install.packages("foreign")`
 
 ```R
 # AS R DATA SET
@@ -232,4 +222,4 @@ cf <- "CodeToLoadDataInSPSS.txt"
 write.foreign( df, datafile=df, codefile=df, package="SPSS" )
 ```
 
-The the package 'foreign' is not installed first try:  `install.packages("foreign")`
+
