@@ -54,7 +54,7 @@ fn <- "data-download-revocation.txt"
 
 df <- 
   read.delim( 
-    file=, 
+    file=fn, 
     header = FALSE, 
     sep = "|", 
     quote = "",
